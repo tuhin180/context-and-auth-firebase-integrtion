@@ -1,17 +1,44 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Register = () => {
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleName = (e) => {
+    setName(e.target.value);
+    console.log(e.target.value);
+  };
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    console.log(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+  };
+  const handleConfirmPassword = (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleRegister = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="mt-12 flex justify-center">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
         <h1 className="text-2xl font-bold text-center">Registration</h1>
         <form action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
           <div className="space-y-1 text-sm">
-            <label for="username" className="block dark:text-gray-400">
+            <label htmlFor="username" className="block dark:text-gray-400">
               Username
             </label>
             <input
+              onBlur={handleName}
               type="text"
               name="username"
               id="username"
@@ -24,6 +51,7 @@ const Register = () => {
               UserEmail
             </label>
             <input
+              onBlur={handleEmail}
               type="emal"
               name="email"
               id="email"
@@ -36,6 +64,7 @@ const Register = () => {
               Password
             </label>
             <input
+              onBlur={handlePassword}
               type="password"
               name="password"
               id="password"
@@ -43,8 +72,27 @@ const Register = () => {
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
             />
           </div>
-          <button className="block w-full p-3 text-center rounded-sm dark:text-gray-900 dark:bg-violet-400">
-            Sign in
+          <div className="space-y-1 text-sm">
+            <label
+              htmlFor="confirm password"
+              className="block dark:text-gray-400"
+            >
+              Confirm Password
+            </label>
+            <input
+              onBlur={handleConfirmPassword}
+              type="password"
+              name="confirm password"
+              id="confirm password"
+              placeholder=" confirm Password"
+              className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+            />
+          </div>
+          <button
+            onClick={handleRegister}
+            className="block w-full p-3 text-center rounded-sm dark:text-gray-900 dark:bg-violet-400"
+          >
+            Register
           </button>
         </form>
         <div className="flex items-center pt-4 space-x-1">

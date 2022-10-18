@@ -1,7 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Link } from "react-router-dom";
+import { authUserContext } from "../../src/Context/Usercontext";
 
 const Header = () => {
+  const { user } = useContext(authUserContext);
   return (
     <div>
       <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
@@ -56,7 +58,7 @@ const Header = () => {
                 to="/"
                 className="flex items-center px-4 -mb-1 border-b-2 dark:border-transparent"
               >
-                Profile
+                {user?.email}
               </Link>
             </li>
           </ul>

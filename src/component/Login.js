@@ -1,7 +1,23 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
+
+  const handleEmail = (e) => {
+    setEmail(e.target.value);
+    console.log(e.target.value);
+  };
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    console.log(e.target.value);
+  };
+
+  const handleLogin = (e) => {
+    e.preventDefault();
+  };
   return (
     <div className="mt-12 flex justify-center">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
@@ -12,6 +28,7 @@ const Login = () => {
               Username
             </label>
             <input
+              onBlur={handleEmail}
               type="emal"
               name="email"
               id="email"
@@ -24,6 +41,7 @@ const Login = () => {
               Password
             </label>
             <input
+              onBlur={handlePassword}
               type="password"
               name="password"
               id="password"
@@ -36,7 +54,10 @@ const Login = () => {
               </Link>
             </div>
           </div>
-          <button className="block w-full p-3 text-center rounded-sm dark:text-gray-900 dark:bg-violet-400">
+          <button
+            onClick={handleLogin}
+            className="block w-full p-3 text-center rounded-sm dark:text-gray-900 dark:bg-violet-400"
+          >
             Sign in
           </button>
         </form>
