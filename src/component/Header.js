@@ -3,7 +3,16 @@ import { Link } from "react-router-dom";
 import { authUserContext } from "../../src/Context/Usercontext";
 
 const Header = () => {
-  const { user } = useContext(authUserContext);
+  const { user, userSignOut } = useContext(authUserContext);
+  const handleSignOut = () => {
+    userSignOut()
+      .then(() => {
+        // Sign-out successful.
+      })
+      .catch((error) => {
+        // An error happened.
+      });
+  };
   return (
     <div>
       <header className="p-4 dark:bg-gray-800 dark:text-gray-100">
@@ -63,15 +72,27 @@ const Header = () => {
             </li>
           </ul>
           <div className="items-center flex-shrink-0 hidden lg:flex">
-            <Link to="/login" className="self-center px-8 py-3 rounded">
-              Sign in
-            </Link>
-            <Link
-              to="/registration"
-              className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
-            >
-              Sign Out
-            </Link>
+            {user?.uid ? (
+              <Link
+                onClick={handleSignOut}
+                to="/registration"
+                className="self-center px-8 py-3 font-semibold rounded dark:bg-violet-400 dark:text-gray-900"
+              >
+                Sign Out
+              </Link>
+            ) : (
+              <>
+                <Link to="/login" className="self-center px-8 py-3 rounded">
+                  Sign in
+                </Link>
+                <Link
+                  to="/Registration"
+                  className="self-center px-8 py-3 rounded"
+                >
+                  Registration
+                </Link>
+              </>
+            )}
           </div>
           <button className="p-4 lg:hidden">
             <svg

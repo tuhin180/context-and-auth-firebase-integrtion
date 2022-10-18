@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { authUserContext } from "../Context/Usercontext";
 
 const Login = () => {
+  const { userSignin } = useContext(authUserContext);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
@@ -17,11 +20,24 @@ const Login = () => {
 
   const handleLogin = (e) => {
     e.preventDefault();
+    userSignin(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+      });
   };
   return (
     <div className="mt-12 flex justify-center">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
         <h1 className="text-2xl font-bold text-center">Login</h1>
+        <p className="text-red-600">{error}</p>
         <form action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
           <div className="space-y-1 text-sm">
             <label htmlFor="userEmail" className="block dark:text-gray-400">
@@ -34,6 +50,7 @@ const Login = () => {
               id="email"
               placeholder="UserEmail"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
           </div>
           <div className="space-y-1 text-sm">
@@ -47,6 +64,7 @@ const Login = () => {
               id="password"
               placeholder="Password"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
             <div className="flex justify-end text-xs dark:text-gray-400">
               <Link rel="noopener noreferrer" to="#">

@@ -1,7 +1,10 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { authUserContext } from "../Context/Usercontext";
 
 const Register = () => {
+  const { createNewUser } = useContext(authUserContext);
+
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -21,18 +24,38 @@ const Register = () => {
     console.log(e.target.value);
   };
   const handleConfirmPassword = (e) => {
-    setPassword(e.target.value);
+    setConfirmPassword(e.target.value);
     console.log(e.target.value);
   };
 
   const handleRegister = (e) => {
     e.preventDefault();
+
+    if (password !== confirmPassword) {
+      setError("password didnt match");
+      return;
+    }
+
+    createNewUser(email, password)
+      .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log(user);
+        // ...
+      })
+      .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        setError(errorMessage);
+        // ..
+      });
   };
   return (
     <div className="mt-12 flex justify-center">
       <div className="w-full max-w-md p-8 space-y-3 rounded-xl dark:bg-gray-900 dark:text-gray-100">
         <h1 className="text-2xl font-bold text-center">Registration</h1>
         <form action="" className="space-y-6 ng-untouched ng-pristine ng-valid">
+          <p className="text-red-600">{error}</p>
           <div className="space-y-1 text-sm">
             <label htmlFor="username" className="block dark:text-gray-400">
               Username
@@ -44,6 +67,7 @@ const Register = () => {
               id="username"
               placeholder="Username"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
           </div>
           <div className="space-y-1 text-sm">
@@ -57,6 +81,7 @@ const Register = () => {
               id="email"
               placeholder="UserEmail"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
           </div>
           <div className="space-y-1 text-sm">
@@ -70,6 +95,7 @@ const Register = () => {
               id="password"
               placeholder="Password"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
           </div>
           <div className="space-y-1 text-sm">
@@ -86,6 +112,7 @@ const Register = () => {
               id="confirm password"
               placeholder=" confirm Password"
               className="w-full px-4 py-3 rounded-md dark:border-gray-700 dark:bg-gray-900 dark:text-gray-100 focus:dark:border-violet-400"
+              required
             />
           </div>
           <button
